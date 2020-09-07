@@ -1,8 +1,5 @@
 import sys
 
-global a
-global b
-global operation
 global available_operations
 available_operations = ["sum", "sub", "mul", "div"]
 
@@ -40,16 +37,13 @@ def get_operation(msg):
 
 
 def get_variables():
-    global a
-    global b
-    global operation
-
     a = get_number(sys.argv[1]) if len(sys.argv) >= 2 and check_if_digit(sys.argv[1]) else get_number_from_user(
         "Please provide babo first number i mnie nie trolluj: ")
     b = get_number(sys.argv[2]) if len(sys.argv) >= 3 and check_if_digit(sys.argv[2]) else get_number_from_user(
         "Please provide babo second number i daruj sobie: ")
     operation = sys.argv[3] if len(sys.argv) >= 4 and sys.argv[3].lower() in available_operations else get_operation(
         "Podaj mi co mam z tymi liczbami zrobić: ")
+    return [a, b, operation]
 
 
 def sum_numbers(num1, num2):
@@ -71,7 +65,7 @@ def div_numbers(num1, num2):
         return num1 / num2
 
 
-def switch(op, num1, num2):
+def switch(num1, num2, op):
     switcher = {
         "sum": sum_numbers,
         "sub": sub_numbers,
@@ -85,11 +79,11 @@ def switch(op, num1, num2):
 
 def check_if_main():
     if __name__ == "__main__":
-        get_variables()
+        values = get_variables()
+        print("Provided data: ", values[0], values[1], values[2])
+        switch(values[0], values[1], values[2])
     else:
         print("Calc.py is not main")
 
 
 check_if_main()
-print("Provided data: ", a, b, operation)
-switch(operation, a, b)
